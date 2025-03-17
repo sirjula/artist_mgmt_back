@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -20,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-emfvz^(c0v=a4a#8+7@u140*i-f_0f)w=svh+%7m4n_+afw7x6'
+
+SECRET_KEY=os.getenv('SECRET_KEY')
+JWT_SECRET_KEY=os.getenv('JWT_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -30,6 +35,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -73,11 +81,26 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+load_dotenv()
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+
+'default': {
+
+'ENGINE': 'django.db.backends.postgresql',
+
+'NAME': os.getenv('DB_NAME'),
+
+'USER': os.getenv('DB_USER'),
+
+'PASSWORD': os.getenv('DB_PASSWORD'),
+
+'HOST': os.getenv('DB_HOST'),
+
+'PORT': os.getenv('DB_PORT'),
+
+}
+
 }
 
 
